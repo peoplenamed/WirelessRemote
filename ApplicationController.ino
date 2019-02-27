@@ -7,7 +7,6 @@ void handleClient(WiFiClient client) {
             char c = client.read();         // read a byte, then
             Serial.write(c);                // print it out the serial monitor
             header += c;
-
             if (c == '\n') {
               // if the byte is a newline character
               // if the current line is blank, you got two newline characters in a row.
@@ -45,13 +44,12 @@ void returnOK(WiFiClient client) {
   client.println();
 }
 
-
 void routes(String header, WiFiClient client) {
-  if (header.indexOf("GET /26/on") >= 0) {
-    Serial.println("GPIO 26 on");    
+  if (header.indexOf("GET /test/on") >= 0) {
+    Serial.println("test on");    
     developmentView(client, "on");
-  } else if (header.indexOf("GET /26/off") >= 0) {
-    Serial.println("GPIO 26 off");    
+  } else if (header.indexOf("GET /test/off") >= 0) {
+    Serial.println("test off");    
     developmentView(client, "off");
   } else if (header.indexOf("GET /remote/power") >= 0) {
     productionView(client, "power");
@@ -63,5 +61,23 @@ void routes(String header, WiFiClient client) {
     productionView(client, "volume up");
   } else if (header.indexOf("GET /remote/volume/down") >= 0) {
     productionView(client, "volume down");
+  } else if (header.indexOf("GET /remote/volume/mute") >= 0) {
+    productionView(client, "input");
+  } else if (header.indexOf("GET /remote/down") >= 0) {
+    productionView(client, "down");
+  } else if (header.indexOf("GET /remote/up") >= 0) {
+    productionView(client, "up");
+  } else if (header.indexOf("GET /remote/left") >= 0) {
+    productionView(client, "left");
+  } else if (header.indexOf("GET /remote/right") >= 0) {
+    productionView(client, "right");
+  } else if (header.indexOf("GET /remote/ok") >= 0) {
+    productionView(client, "ok");
+  } else if (header.indexOf("GET /remote/menu") >= 0) {
+    productionView(client, "menu");
+  } else if (header.indexOf("GET /remote/input") >= 0) {
+    productionView(client, "input");
+  } else {
+    productionView(client, "unknown");
   }
 }
